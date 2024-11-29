@@ -21,4 +21,3 @@ div.playground {
     margin: 45px auto;
 }
 </style>
-

@@ -11,7 +11,7 @@ class BackApplicationTests {
     @Test
     void contextLoads() {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(passwordEncoder.encode("pyxc"));
+        System.out.println(passwordEncoder.encode("pa"));
     }
 
 }

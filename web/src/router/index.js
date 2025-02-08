@@ -84,12 +84,30 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requestAuth && !store.state.user.is_login) {
-    next({ name: "user_account_login" });
-  } else {
-    next();
+router.beforeEach((to,from,next)=>{
+  const jwt_token = localStorage.getItem('jwt_token');
+  if(jwt_token){
+    store.commit('updateToken',jwt_token);
+    store.dispatch('getinfo',{
+      success(){
+        next();
+      },
+      error(){
+        // console.log(store.state.user);
+        store.dispatch('logout');
+        alert("token无效，请重新登录！");
+        next({name:"user_account_login"});
+      }
+    })
+  }else{
+    if(to.meta.requestAuth && !store.state.user.is_login){
+      next({name:"user_account_login"});
+    }else{
+      next();
+    }
   }
 })
+
+
 
 export default router

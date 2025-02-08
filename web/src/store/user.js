@@ -60,6 +60,7 @@ export default {
             $.ajax({
                 url: "http://127.0.0.1:3000/user/account/info/",
                 type: "get",
+                async: false,
                 headers: {
                     Authorization: "Bearer " + context.state.token,
                 },

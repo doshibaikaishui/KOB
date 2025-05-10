@@ -25,14 +25,13 @@ public class MatchingPool extends Thread{
         MatchingPool.restTemplate = restTemplate;
     }
 
-    public void addPlayer(Integer userId, Integer rating) {
+    public void addPlayer(Integer userId, Integer rating, Integer botId) {
         lock.lock();
         try {
             boolean playerExists = players.stream()
                     .anyMatch(p -> p.getUserId().equals(userId));
-
             if (!playerExists) {
-                players.add(new Player(userId, rating, 0));
+                players.add(new Player(userId, rating, botId, 0));
             } else {
                 throw new IllegalArgumentException("玩家已存在于匹配池中");
             }
@@ -73,7 +72,9 @@ public class MatchingPool extends Thread{
     private void sendResult(Player a,Player b) {
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("a_id", a.getUserId().toString());
+        data.add("a_bot_id", a.getBotId().toString());
         data.add("b_id", b.getUserId().toString());
+        data.add("b_bot_id", b.getBotId().toString());
         restTemplate.postForObject(startGameUrl, data, String.class);
     }
 

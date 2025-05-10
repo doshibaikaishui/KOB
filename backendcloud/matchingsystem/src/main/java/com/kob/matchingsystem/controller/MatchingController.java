@@ -14,8 +14,6 @@ public class MatchingController {
 
     @Autowired
     private MatchingService matchingService;
-
-
     /*
     * @param MultiValueMap 允许一个key对应多个value
      */
@@ -23,7 +21,8 @@ public class MatchingController {
     public String addPlayer(@RequestParam MultiValueMap<String,String> data) {
         Integer userId = Integer.parseInt(Objects.requireNonNull(data.getFirst("user_id")));
         Integer rating = Integer.parseInt(Objects.requireNonNull(data.getFirst("rating")));
-        return matchingService.addPlayer(userId,rating);
+        Integer botId = Integer.parseInt(Objects.requireNonNull(data.getFirst("bot_id")));
+        return matchingService.addPlayer(userId,rating,botId);
     }
 
     @PostMapping("/player/remove/")
